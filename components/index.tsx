@@ -3,6 +3,7 @@ import Recorder from "./Recorder"
 import AuthGate from "./AuthGate"
 import AuthForm from "./AuthForm"
 import RecordingsList from "./RecordingsList"
+import TranscriptionRecorder from "./TranscriptionRecorder"
 
 export {
     Dashboard,
@@ -10,4 +11,5 @@ export {
     AuthForm,
     AuthGate,
     RecordingsList,
+    TranscriptionRecorder,
 }

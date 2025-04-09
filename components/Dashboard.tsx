@@ -1,9 +1,70 @@
 'use client'
 
 import { useState } from 'react'
+import TranscriptionRecorder from './TranscriptionRecorder'
+import { auth } from '../lib/firebase'
+import { db, storage } from '../lib/firebase'
+import {
+  doc,
+  setDoc,
+  serverTimestamp,
+  collection,
+} from 'firebase/firestore'
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from 'firebase/storage'
 
 export default function Dashboard() {
   const [showRecorder, setShowRecorder] = useState(false)
+
+  const handleTranscribe = async (blob: Blob) => {
+    setShowRecorder(false)
+
+    const formData = new FormData()
+    formData.append('file', blob, 'recording.webm')
+
+    try {
+      const res = await fetch('/api/transcribe', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Transcription failed')
+      }
+
+      const uid = auth.currentUser?.uid
+      const email = auth.currentUser?.email
+      if (!uid) throw new Error('User not authenticated')
+
+      // Save audio clip to Storage
+      const timestamp = Date.now()
+      const filename = `transcription_${timestamp}.webm`
+      const storageRef = ref(storage, `transcriptions/${uid}/${filename}`)
+      await uploadBytes(storageRef, blob)
+      const audioURL = await getDownloadURL(storageRef)
+
+      // Save transcript to Firestore
+      const docRef = doc(collection(db, 'transcriptions'))
+      await setDoc(docRef, {
+        uid,
+        email,
+        text: data.text,
+        audioURL,
+        createdAt: serverTimestamp(),
+        model: 'whisper-1',
+        status: 'completed',
+      })
+
+      alert(`Transcription saved:\n\n"${data.text}"`)
+    } catch (err: any) {
+      alert(`Error: ${err.message}`)
+    }
+  }
 
   return (
     <div className="p-8 space-y-8 max-w-3xl mx-auto">
@@ -16,23 +77,15 @@ export default function Dashboard() {
         New Transcription
       </button>
 
-      {/* We'll replace this with actual user data later */}
       <div className="border rounded-md p-4 bg-gray-50 text-gray-600">
         No transcriptions yet.
       </div>
 
       {showRecorder && (
-        <div className="border p-8 bg-white rounded-xl shadow-xl">
-          <p className="text-center text-lg font-semibold text-gray-700 mb-4">
-            [Recorder goes here]
-          </p>
-          <button
-            onClick={() => setShowRecorder(false)}
-            className="block mx-auto mt-4 bg-gray-300 hover:bg-gray-400 text-sm px-4 py-2 rounded cursor-pointer"
-          >
-            Cancel
-          </button>
-        </div>
+        <TranscriptionRecorder
+          onClose={() => setShowRecorder(false)}
+          onTranscribe={handleTranscribe}
+        />
       )}
     </div>
   )
