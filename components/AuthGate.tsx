@@ -4,9 +4,7 @@ import { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../lib/firebase'
 import { logout } from '../lib/auth'
-import Recorder from './Recorder'
-import AuthForm from './AuthForm'
-import RecordingsList from './RecordingsList'
+import {AuthForm, Dashboard} from './'
 
 export default function AuthGate() {
   const [user, setUser] = useState<any>(null)
@@ -57,8 +55,7 @@ export default function AuthGate() {
           Logout
         </button>
       </div>
-      <Recorder />
-      <RecordingsList />
+      <Dashboard />
     </div>
   )
 }
