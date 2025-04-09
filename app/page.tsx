@@ -1,20 +1,52 @@
 'use client'
 
-import { useEffect } from 'react'
-import { signInAnonymously, onAuthStateChanged } from 'firebase/auth'
-import { auth } from '../lib/firebase'
+import { useEffect, useState } from 'react'
+import { auth, db, storage } from '../lib/firebase'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
-export default function HomePage() {
+export default function UploadTest() {
+  const [uid, setUid] = useState<string | null>(null)
+
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log('Signed in:', user.uid)
-      } else {
-        signInAnonymously(auth)
-      }
+    const unsub = auth.onAuthStateChanged((user) => {
+      if (user) setUid(user.uid)
     })
     return unsub
   }, [])
 
-  return <main>MP3 Recorder App</main>
+  const uploadTestMp3 = async () => {
+    if (!uid) return alert('Not signed in.')
+
+    const res = await fetch('/mp3/sample.mp3')
+    const blob = await res.blob()
+
+    const timestamp = Date.now()
+    const filename = `sample-${timestamp}.mp3`
+    const storageRef = ref(storage, `recordings/${uid}/${filename}`)
+
+    await uploadBytes(storageRef, blob)
+    const url = await getDownloadURL(storageRef)
+
+    await addDoc(collection(db, 'recordings'), {
+      uid,
+      filename,
+      url,
+      createdAt: serverTimestamp(),
+    })
+
+    alert('Upload successful.')
+  }
+
+  return (
+    <main className="p-8">
+      <button
+        onClick={uploadTestMp3}
+        className="bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-bold py-4 px-8 rounded-2xl shadow-lg transition-all cursor-pointer"
+      >
+        Upload Sample MP3
+      </button>
+    </main>
+  )
 }
+
