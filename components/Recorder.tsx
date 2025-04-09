@@ -1,8 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { auth, db, storage } from '../lib/firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { auth } from '../lib/firebase'
+import { db, storage } from '../lib/firebase'
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment,
+} from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 export default function Recorder() {
@@ -66,12 +76,32 @@ export default function Recorder() {
     await uploadBytes(storageRef, recordingBlob)
     const url = await getDownloadURL(storageRef)
 
+    // Save recording metadata
     await addDoc(collection(db, 'recordings'), {
       uid,
       filename,
       url,
       createdAt: serverTimestamp(),
     })
+
+    // Update user's usage data
+    const userRef = doc(db, 'users', uid)
+    const userSnap = await getDoc(userRef)
+
+    if (userSnap.exists()) {
+      await updateDoc(userRef, {
+        recordingCount: increment(1),
+        lastUpload: serverTimestamp(),
+      })
+    } else {
+      await setDoc(userRef, {
+        uid,
+        email: auth.currentUser?.email || '',
+        createdAt: serverTimestamp(),
+        recordingCount: 1,
+        lastUpload: serverTimestamp(),
+      })
+    }
 
     alert('Recording uploaded')
     setRecordingBlob(null)
