@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
-;
+// import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
@@ -10,9 +9,9 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://speakwrite.goldlabel.pro'),
   description: 'From speech to campaign in 60 seconds. SpeakWrite turns your voice into a ready-to-post AI-powered media kit',
   openGraph: {
-    title: 'Next.js App Router Playground',
+    title: 'SpeakWrite',
     description: 'From speech to campaign in 60 seconds. SpeakWrite turns your voice into a ready-to-post AI-powered media kit',
-    images: [`/api/og?title=Next.js App Router`],
+    images: [`/jpg/portrait.jpg SpeakWrite`],
   },
   twitter: {
     card: 'summary_large_image',
