@@ -5,9 +5,15 @@
 [![OpenAI Whisper](https://img.shields.io/badge/AI-Whisper-blue?logo=openai&style=flat-square)](https://platform.openai.com/docs/guides/speech-to-text)
 [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind-38bdf8?logo=tailwindcss&logoColor=white&style=flat-square)](https://tailwindcss.com/)
 
-**SpeakWrite** is a privacy-first voice transcription web app that transforms 1-minute audio clips into a complete, ready-to-post social media campaign.
+## ✅ SEO Meta Description
+SpeakWrite is the open source transcription engine imagined in Orwell’s 1984 — rebuilt for the modern web. Record a 1-minute voice clip, generate a full social media campaign, and download a zip of AI-generated assets including text, metadata, and visuals. Powered by Next.js, Firebase, Whisper, and DALL·E. Free, secure, and browser-native.
 
-Built for creators, podcasters, and founders who want to turn speech into shareable, branded assets — instantly.
+## ✅ Social Meta Tagline (OG:description / Twitter card)
+From speech to campaign in 60 seconds. SpeakWrite turns your voice into a ready-to-post AI-powered media kit.
+
+## ✅ Alternative Homepage Header Intro (1–2 liner)
+SpeakWrite is an open-source web app that transforms your voice into a full social media campaign.
+Built with Next.js, Firebase, and OpenAI — and inspired by the transcription machines of Orwell’s 1984.
 
 ## ✨ What It Does
 
