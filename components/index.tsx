@@ -4,6 +4,7 @@ import AuthGate from "./AuthGate"
 import AuthForm from "./AuthForm"
 import RecordingsList from "./RecordingsList"
 import TranscriptionRecorder from "./TranscriptionRecorder"
+import TranscriptionList from "./TranscriptionList"
 
 export {
     Dashboard,
@@ -12,4 +13,5 @@ export {
     AuthGate,
     RecordingsList,
     TranscriptionRecorder,
+    TranscriptionList,
 }

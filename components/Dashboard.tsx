@@ -1,7 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import TranscriptionRecorder from './TranscriptionRecorder'
+import {
+  TranscriptionRecorder,
+  TranscriptionList,
+} from './'
 import { auth } from '../lib/firebase'
 import { db, storage } from '../lib/firebase'
 import {
@@ -80,6 +83,8 @@ export default function Dashboard() {
       <div className="border rounded-md p-4 bg-gray-50 text-gray-600">
         No transcriptions yet.
       </div>
+
+      <TranscriptionList />
 
       {showRecorder && (
         <TranscriptionRecorder
