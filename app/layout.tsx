@@ -3,8 +3,8 @@ import "./globals.css";
 ;
 
 export const metadata: Metadata = {
-  title: "MP3 Recoder",
-  description: "Does what it says on the tin",
+  title: "SpeakWrite",
+  description: "SpeakWrite is a privacy-first voice transcription web app that lets you record short voice notes, transcribe them instantly with AI, and review your past activity — all from your mobile browser. No installs, just clear voice to text.",
 };
 
 export default function RootLayout({
