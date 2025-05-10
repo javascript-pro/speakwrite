@@ -1,0 +1,24 @@
+{
+  "short_name": "SpeakWrite",
+  "name": "SpeakWrite",
+  "theme_color": "#C09F52",
+  "background_color": "#C09F52",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "splash_pages": null,
+  "icons": [
+    {
+      "src": "/png/logo180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/png/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

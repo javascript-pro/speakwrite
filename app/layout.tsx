@@ -1,10 +1,21 @@
 import type { Metadata } from "next";
-import "./globals.css";
-;
+// import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SpeakWrite",
-  description: "SpeakWrite is a privacy-first voice transcription web app that lets you record short voice notes, transcribe them instantly with AI, and review your past activity — all from your mobile browser. No installs, just clear voice to text.",
+  title: {
+    default:  "SpeakWrite",
+    template: '%s | SpeakWrite',
+  },
+  metadataBase: new URL('https://speakwrite.goldlabel.pro'),
+  description: 'From speech to campaign in 60 seconds. SpeakWrite turns your voice into a ready-to-post AI-powered media kit',
+  openGraph: {
+    title: 'SpeakWrite',
+    description: 'From speech to campaign in 60 seconds. SpeakWrite turns your voice into a ready-to-post AI-powered media kit',
+    images: [`/jpg/portrait.jpg SpeakWrite`],
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 };
 
 export default function RootLayout({
@@ -14,6 +25,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`/png/logo180.png`}
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+      </head>
       <body>
         {children}
       </body>
